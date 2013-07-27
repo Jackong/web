@@ -6,7 +6,7 @@
 package log
 
 import (
-	"githud.com/Jackong/web/config"
+	"github.com/Jackong/web/config"
 	"os"
 	"fmt"
 	"log"

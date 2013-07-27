@@ -6,10 +6,10 @@
 package test
 
 import (
-	"githud.com/Jackong/web/ctrl"
-	"githud.com/Jackong/web/mapper"
-	"githud.com/Jackong/web/io"
-	"githud.com/Jackong/web/method"
+	"github.com/Jackong/web/ctrl"
+	"github.com/Jackong/web/mapper"
+	"github.com/Jackong/web/io"
+	"github.com/Jackong/web/method"
 )
 
 type test struct {

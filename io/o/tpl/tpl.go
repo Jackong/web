@@ -6,12 +6,12 @@
 package tpl
 
 import (
-	"githud.com/Jackong/web/io/o"
+	"github.com/Jackong/web/io/o"
 	"path/filepath"
 	"html/template"
-	"githud.com/Jackong/web/config"
+	"github.com/Jackong/web/config"
 	"os"
-	"githud.com/Jackong/web/common/log"
+	"github.com/Jackong/web/common/log"
 )
 
 var (

@@ -6,8 +6,8 @@
 package main
 
 import (
-	"githud.com/Jackong/web"
-	_ "githud.com/Jackong/web/ctrl/test"
+	"github.com/Jackong/web"
+	_ "github.com/Jackong/web/ctrl/test"
 )
 
 func main() {

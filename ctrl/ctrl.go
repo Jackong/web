@@ -6,8 +6,8 @@
 package ctrl
 
 import (
-	"githud.com/Jackong/web/io/i"
-	"githud.com/Jackong/web/io"
+	"github.com/Jackong/web/io/i"
+	"github.com/Jackong/web/io"
 )
 
 type ICtrl interface {

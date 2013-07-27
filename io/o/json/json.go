@@ -6,7 +6,7 @@
 package json
 
 import (
-	"githud.com/Jackong/web/io/o"
+	"github.com/Jackong/web/io/o"
 	"encoding/json"
 	"fmt"
 )

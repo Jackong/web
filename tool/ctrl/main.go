@@ -6,7 +6,7 @@
 package main
 
 import (
-	"githud.com/Jackong/web/config"
+	"github.com/Jackong/web/config"
 	"os"
 	"path/filepath"
 	"fmt"

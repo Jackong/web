@@ -6,7 +6,7 @@
 package mapper
 
 import (
-	"githud.com/Jackong/web/ctrl"
+	"github.com/Jackong/web/ctrl"
 )
 
 var (

@@ -7,7 +7,7 @@ package i
 
 import (
 	"net/http"
-	"githud.com/Jackong/web/common/registry"
+	"github.com/Jackong/web/common/registry"
 )
 
 type Input struct {

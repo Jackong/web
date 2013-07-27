@@ -6,8 +6,8 @@
 package io
 
 import (
-	"githud.com/Jackong/web/io/i"
-	"githud.com/Jackong/web/io/o"
+	"github.com/Jackong/web/io/i"
+	"github.com/Jackong/web/io/o"
 )
 
 type Context struct {

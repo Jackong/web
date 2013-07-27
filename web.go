@@ -5,17 +5,17 @@
  */
 package web
 import (
-	"githud.com/Jackong/web/config"
+	"github.com/Jackong/web/config"
 	"net/http"
-	"githud.com/Jackong/web/mapper"
-	"githud.com/Jackong/web/common/log"
-	_ "githud.com/Jackong/web/static"
-	_ "githud.com/Jackong/web/io/o/json"
-	_ "githud.com/Jackong/web/io/o/tpl"
-	"githud.com/Jackong/web/io/i"
-	"githud.com/Jackong/web/io/o"
-	"githud.com/Jackong/web/io"
-	"githud.com/Jackong/web/method"
+	"github.com/Jackong/web/mapper"
+	"github.com/Jackong/web/common/log"
+	_ "github.com/Jackong/web/static"
+	_ "github.com/Jackong/web/io/o/json"
+	_ "github.com/Jackong/web/io/o/tpl"
+	"github.com/Jackong/web/io/i"
+	"github.com/Jackong/web/io/o"
+	"github.com/Jackong/web/io"
+	"github.com/Jackong/web/method"
 )
 
 func Go() {

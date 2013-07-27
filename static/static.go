@@ -6,8 +6,8 @@
 package static
 
 import (
-	"githud.com/Jackong/web/config"
-	"githud.com/Jackong/web/common/log"
+	"github.com/Jackong/web/config"
+	"github.com/Jackong/web/common/log"
 	"net/http"
 )
 
