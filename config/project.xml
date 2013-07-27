@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <main>src/main.go</main>
+    <server>
+        <name>web</name>
+        <addr>127.0.0.1:80</addr>
+    </server>
+    <dir>
+        <log>log</log>
+        <ctrl>src/web</ctrl>
+        <tpl>view/tpl</tpl>
+        <static root="view/static">
+            <path>js</path>
+            <path>image</path>
+            <path>css</path>
+            <path>html</path>
+        </static>
+    </dir>
+</project>

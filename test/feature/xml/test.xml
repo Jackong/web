@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+    <dir>
+        <log>log</log>
+        <ctrl>ctrl</ctrl>
+        <tpl>view/tpl</tpl>
+        <static root="view/static">
+            <path>js</path>
+            <path>image</path>
+            <path>css</path>
+            <path>html</path>
+        </static>
+    </dir>
+</project>
