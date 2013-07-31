@@ -21,7 +21,7 @@ var (
 
 func init() {
 	log.Info("loading templates")
-	filepath.Walk(config.Project.Dir.Tpl, visit)
+	filepath.Walk(config.Project.Dir.Tpl.Path, visit)
 	tpls = template.Must(template.ParseFiles(tplFiles ...))
 	o.Register("text/html", new(Tpl))
 }
@@ -37,7 +37,7 @@ type Tpl struct {}
 
 func (this *Tpl) Present(output *o.Output) error {
 	name, out := output.Get()
-	if err := tpls.ExecuteTemplate(output.Writer, name + ".html", out); err != nil {
+	if err := tpls.ExecuteTemplate(output.Writer, name + config.Project.Dir.Tpl.Suffix, out); err != nil {
 		return err
 	}
 	return nil

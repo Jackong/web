@@ -24,10 +24,14 @@ type server struct {
 type dir struct {
 	Log string `xml:"log"`
 	Ctrl string `xml:"ctrl"`
-	Tpl string `xml:"tpl"`
+	Tpl tpl `xml:"tpl"`
 	Static static `xml:"static"`
 }
 
+type tpl struct {
+	Path string `xml:"path"`
+	Suffix string `xml:"suffix"`
+}
 type static struct {
 	Root string `xml:"root,attr"`
 	Paths []string `xml:"path"`
