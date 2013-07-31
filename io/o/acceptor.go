@@ -5,6 +5,11 @@
  */
 package o
 
+import (
+	"strings"
+	"strconv"
+)
+
 type IAcceptor interface {
 	Present(*Output) error
 }
@@ -23,5 +28,34 @@ func Register(accept string, acceptor IAcceptor) {
 }
 
 func Acceptor(accept string) (IAcceptor) {
-	return acceptors[accept]
+	if acceptor, ok := acceptors[accept]; ok {
+		return acceptor
+	}
+
+	for _, acps := range order(accept) {
+		for _, acp := range acps {
+			if acceptor, ok := acceptors[acp]; ok {
+				return acceptor
+			}
+		}
+	}
+	return nil
+}
+
+
+func order(accept string) [] []string{
+	order := make([] []string, 10)
+	for _, acps := range strings.Split(accept, ",") {
+		acp := strings.Split(acps, ";")
+		q := 0
+		if len(acp) != 1 {
+			qf, err := strconv.ParseFloat(strings.TrimPrefix(acp[1], "q="), 64)
+			if err != nil {
+				return nil
+			}
+			q = 10 - int(qf * 10)
+		}
+		order[q] = append(order[q], acp[0])
+	}
+	return order
 }
