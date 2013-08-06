@@ -6,12 +6,13 @@
 package json
 
 import (
-	"github.com/Jackong/web/io/o"
-	"encoding/json"
 	"fmt"
+	"encoding/json"
+
+	"github.com/Jackong/web/io/o"
 )
 
-func init() {
+func Init() {
 	o.Register("application/json", new(Json))
 }
 

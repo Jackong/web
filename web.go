@@ -5,21 +5,31 @@
  */
 package web
 import (
-	"github.com/Jackong/web/config"
 	"net/http"
+
+	"github.com/Jackong/web/config"
 	"github.com/Jackong/web/mapper"
 	"github.com/Jackong/web/common/log"
-	_ "github.com/Jackong/web/static"
-	_ "github.com/Jackong/web/io/o/json"
-	_ "github.com/Jackong/web/io/o/tpl"
 	"github.com/Jackong/web/io/i"
 	"github.com/Jackong/web/io/o"
 	"github.com/Jackong/web/io"
 	"github.com/Jackong/web/method"
+	"github.com/Jackong/web/static"
+	"github.com/Jackong/web/io/o/tpl"
+	"github.com/Jackong/web/io/o/json"
 )
 
 func Go() {
+	log.Init(config.Project.Dir.Log)
 	defer log.Close()
+
+	tpl.Init(config.Project.Dir.Tpl.Path, config.Project.Dir.Tpl.Suffix)
+	defer tpl.Close()
+
+	json.Init()
+
+	static.Init(config.Project.Dir.Static.Root, config.Project.Dir.Static.Paths)
+
 	log.Info("collecting controller")
 	log.Info("setting handler for home")
 	http.HandleFunc("/", HomeHandler)
@@ -28,25 +38,32 @@ func Go() {
 }
 
 func HomeHandler(writer http.ResponseWriter, req * http.Request) {
+	defer func() {
+		if e := recover(); e != nil {
+			err := e.(i.InputError)
+			log.Error(err)
+			http.NotFound(writer, req)
+			return
+		}
+	}()
+
 	log.Info(req.RemoteAddr, req.Method, req.URL.Path)
-	acceptor := o.Acceptor(req.Header.Get("Accept"))
+	accept := req.Header.Get("Accept")
+	acceptor := o.Acceptor(accept)
 	if acceptor == nil {
+		log.Error("not acceptable", accept)
 		http.Error(writer, "406 Not Acceptable", http.StatusNotAcceptable)
 		return
 	}
+
 	ctrl := mapper.Get(req.URL.Path)
 	if ctrl == nil {
-		log.Warning("page not found")
+		log.Warning("page not found", req.URL.Path)
 		http.NotFound(writer, req);
 		return;
 	}
-	input := i.New(req)
-	if ok, tips := ctrl.Check(input); !ok {
-		log.Error(tips)
-		http.Error(writer, tips, http.StatusNotFound)
-		return
-	}
-	ctx := io.New(input, &o.Output{Writer: writer})
+
+	ctx := io.New(&i.Input{Req: req}, &o.Output{Writer: writer})
 	switch req.Method {
 	case method.GET:
 		ctrl.Read(ctx)
@@ -57,15 +74,17 @@ func HomeHandler(writer http.ResponseWriter, req * http.Request) {
 	case method.DEL:
 		ctrl.Delete(ctx)
 	default:
-		http.Error(ctx.Writer, "405 Method Not Allowed", http.StatusMethodNotAllowed)
+		http.Error(writer, "405 Method Not Allowed", http.StatusMethodNotAllowed)
 		return
 	}
+
 	if _, output := ctx.Output.Get(); output == nil {
-		http.Error(ctx.Writer, "405 Method Not Allowed", http.StatusMethodNotAllowed)
+		http.Error(writer, "405 Method Not Allowed", http.StatusMethodNotAllowed)
 		return
 	}
+
 	if err := acceptor.Present(ctx.Output); err != nil {
-		log.Error(ctx.Output, "present error:", err)
+		log.Error(ctx.Output, "present error", err)
 		http.Error(writer, "500 Internal Server Error", http.StatusInternalServerError)
 	}
 }

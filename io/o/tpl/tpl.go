@@ -6,11 +6,11 @@
 package tpl
 
 import (
-	"github.com/Jackong/web/io/o"
+	"os"
 	"path/filepath"
 	"html/template"
-	"github.com/Jackong/web/config"
-	"os"
+
+	"github.com/Jackong/web/io/o"
 	"github.com/Jackong/web/common/log"
 )
 
@@ -19,11 +19,15 @@ var (
 	tpls *template.Template
 )
 
-func init() {
+func Init(tplPath, suffix string) {
 	log.Info("loading templates")
-	filepath.Walk(config.Project.Dir.Tpl.Path, visit)
+	filepath.Walk(tplPath, visit)
 	tpls = template.Must(template.ParseFiles(tplFiles ...))
-	o.Register("text/html", new(Tpl))
+	o.Register("text/html", &Tpl{suffix: suffix})
+}
+
+func Close() {
+	tpls.Clone()
 }
 
 func visit(path string, info os.FileInfo, err error) error {
@@ -33,11 +37,13 @@ func visit(path string, info os.FileInfo, err error) error {
 	return err
 }
 
-type Tpl struct {}
+type Tpl struct {
+	suffix string
+}
 
 func (this *Tpl) Present(output *o.Output) error {
 	name, out := output.Get()
-	if err := tpls.ExecuteTemplate(output.Writer, name + config.Project.Dir.Tpl.Suffix, out); err != nil {
+	if err := tpls.ExecuteTemplate(output.Writer, name + this.suffix, out); err != nil {
 		return err
 	}
 	return nil

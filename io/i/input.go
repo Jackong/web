@@ -7,20 +7,38 @@ package i
 
 import (
 	"net/http"
-	"github.com/Jackong/web/common/registry"
+	"regexp"
 )
 
 type Input struct {
 	Req *http.Request
-	registry.Registry
-}
-func New(req *http.Request) *Input{
-	return &Input{Req: req, Registry: registry.Registry{}}
 }
 
-func (this *Input) Get(key string) interface {} {
-	if value := this.Registry.Get(key); value != nil {
+func (this *Input) Get(name, pattern string, defo interface {}) interface {} {
+	value := this.Req.FormValue(name)
+	if value == "" {
+		if defo != nil {
+			return defo
+		}
+		panic(InputError("Invalid param: " + name))
+	}
+	if pattern == "" {
 		return value
 	}
-	return this.Req.FormValue(key)
+	if match, _ := regexp.MatchString(pattern, value); !match {
+		panic(InputError("Invalid param: " + name))
+	}
+	return value
+}
+
+func (this *Input) Default(name string, defo interface {}) interface {} {
+	return this.Get(name, "", defo)
+}
+
+func (this *Input) Pattern(name, pattern string) interface {} {
+	return this.Get(name, pattern, nil)
+}
+
+func (this *Input) Required(name string) interface {}{
+	return this.Pattern(name, "")
 }

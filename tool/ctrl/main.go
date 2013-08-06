@@ -6,11 +6,12 @@
 package main
 
 import (
-	"github.com/Jackong/web/config"
 	"os"
 	"path/filepath"
 	"fmt"
 	"strings"
+
+	"github.com/Jackong/web/config"
 )
 
 func main() {

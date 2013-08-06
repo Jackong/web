@@ -6,14 +6,14 @@
 package static
 
 import (
-	"github.com/Jackong/web/config"
-	"github.com/Jackong/web/common/log"
 	"net/http"
+
+	"github.com/Jackong/web/common/log"
 )
 
-func init() {
+func Init(root string, paths []string) {
 	log.Info("setting static resource")
-	for _, static := range config.Project.Dir.Static.Paths {
-		http.Handle("/" + static + "/", http.FileServer(http.Dir(config.Project.Dir.Static.Root)))
+	for _, static := range  paths {
+		http.Handle("/" + static + "/", http.FileServer(http.Dir(root)))
 	}
 }

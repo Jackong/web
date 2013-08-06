@@ -9,7 +9,6 @@ import (
 	"github.com/Jackong/web/ctrl"
 	"github.com/Jackong/web/mapper"
 	"github.com/Jackong/web/io"
-	"github.com/Jackong/web/method"
 )
 
 type test struct {
@@ -18,11 +17,9 @@ type test struct {
 
 func init() {
 	xa := &test{}
-	xa.Init()
-	xa.Rules[method.GET] = ctrl.Rule{Param: "ok", Required: true}
 	mapper.Set("/test", xa)
 }
 
 func (this *test) Read(ctx *io.Context) {
-	ctx.Output.Set("test", ctx.Input.Get("ok"))
+	ctx.Output.Set("test", ctx.Input.Required("ok"))
 }

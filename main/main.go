@@ -7,6 +7,7 @@ package main
 
 import (
 	"github.com/Jackong/web"
+
 	_ "github.com/Jackong/web/ctrl/test"
 )
 

@@ -6,7 +6,6 @@
 package log
 
 import (
-	"github.com/Jackong/web/config"
 	"os"
 	"fmt"
 	"log"
@@ -23,18 +22,20 @@ const (
 )
 
 var (
+	dir string
 	logger *log.Logger
 	logFile *os.File
 )
 
-func init() {
-	if err := os.MkdirAll(config.Project.Dir.Log, os.ModeDir); err != nil {
+func Init(logDir string) {
+	dir = logDir
+	if err := os.MkdirAll(dir, os.ModeDir); err != nil {
 		fmt.Println("warning:", err)
 	}
 }
 
 func getLog() *log.Logger {
-	fileName := config.Project.Dir.Log + "/" + time.Now().Format("2006-01-02") + ".log"
+	fileName := dir + "/" + time.Now().Format("2006-01-02") + ".log"
 	if logFile != nil {
 		if logFile.Name() == fileName {
 			return logger
