@@ -8,12 +8,11 @@ package config
 import (
 	"encoding/xml"
 	"os"
-	"io/ioutil"
 	"fmt"
 )
 
 type project struct {
-	Dir dir `xml:"dir"`
+	Dir    dir `xml:"dir"`
 	Server server `xml:"server"`
 }
 
@@ -22,18 +21,17 @@ type server struct {
 	Addr string `xml:"addr"`
 }
 type dir struct {
-	Log string `xml:"log"`
-	Ctrl string `xml:"ctrl"`
-	Tpl tpl `xml:"tpl"`
+	Log    string `xml:"log"`
+	Tpl    tpl `xml:"tpl"`
 	Static static `xml:"static"`
 }
 
 type tpl struct {
-	Path string `xml:"path"`
+	Path   string `xml:"path"`
 	Suffix string `xml:"suffix"`
 }
 type static struct {
-	Root string `xml:"root,attr"`
+	Root  string `xml:"root,attr"`
 	Paths []string `xml:"path"`
 }
 
@@ -42,24 +40,9 @@ var (
 )
 
 func init() {
-	file, err := os.Open("config/project.xml")
-	if err != nil {
-		fmt.Printf("error: %v", err)
-		os.Exit(1)
-		return
-	}
-	defer file.Close()
-
-	data, err := ioutil.ReadAll(file)
-	if err != nil {
-		fmt.Printf("error: %v", err)
-		os.Exit(1)
-		return
-	}
-
+	data := read("config/project.xml")
 	Project = project{}
-	err = xml.Unmarshal(data, &Project)
-	if err != nil {
+	if err := xml.Unmarshal(data, &Project); err != nil {
 		fmt.Printf("error: %v", err)
 		os.Exit(1)
 		return
