@@ -17,6 +17,10 @@ type Input struct {
 func (this *Input) Get(name, pattern string, defo interface {}) interface {} {
 	value := this.Req.FormValue(name)
 	if value == "" {
+		this.Req.ParseForm()
+		value = this.Req.Form.Get(name)
+	}
+	if value == "" {
 		if defo != nil {
 			return defo
 		}
