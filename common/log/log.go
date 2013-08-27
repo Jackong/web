@@ -71,7 +71,8 @@ func Error(v ... interface {}) {
 }
 
 func Print(level Level, v ... interface {}) {
-	getLog().Print("[",  level, "]|", v)
+	l := getLog()
+	l.Print("[",  level, "]|", l.Output(2, fmt.Sprint(v)))
 }
 
 func Close() {
