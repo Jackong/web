@@ -23,6 +23,7 @@ func Go() {
 	log.Init(config.Project.Dir.Log)
 	defer log.Close()
 
+	log.Info("setup server...")
 	tpl.Init(config.Project.Dir.Tpl.Path, config.Project.Dir.Tpl.Suffix)
 	defer tpl.Close()
 
@@ -84,7 +85,7 @@ func HomeHandler(writer http.ResponseWriter, req * http.Request) {
 	}
 
 	if err := acceptor.Present(ctx.Output); err != nil {
-		log.Error(ctx.Output, "present error", err)
+		log.Error("present error", err)
 		http.Error(writer, "500 Internal Server Error", http.StatusInternalServerError)
 	}
 }

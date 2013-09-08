@@ -46,11 +46,11 @@ func getLog() *log.Logger {
 	}
 
 	var err error = nil
-	logFile, err = os.OpenFile(fileName, os.O_RDWR | os.O_CREATE, 0)
+	logFile, err = os.OpenFile(fileName, os.O_RDWR | os.O_CREATE | os.O_APPEND, 0)
 	if err != nil {
 		fmt.Println("warning:", err)
 	}
-	logger = log.New(logFile, "", log.Ldate | log.Ltime | log.Llongfile)
+	logger = log.New(logFile, "", log.Ldate | log.Ltime | log.Lshortfile)
 	return logger
 }
 
@@ -71,11 +71,11 @@ func Error(v ... interface {}) {
 }
 
 func Print(level Level, v ... interface {}) {
-	Output(0, fmt.Sprint("[",  level, "]|", v))
+	Output(0, level, v)
 }
 
-func Output(depth int, v ... interface {}) {
-	getLog().Output(3 + depth, v)
+func Output(depth int, level Level, v ... interface {}) {
+	getLog().Output(4 + depth, fmt.Sprint("[",  level, "]|", v))
 }
 
 func Close() {
